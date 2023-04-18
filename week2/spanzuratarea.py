@@ -1,4 +1,8 @@
-cuvant = 'onomatopee'.lower()
+import random
+from lista_cuvinte import cuvinte_de_ghicit as lista_cuvinte
+
+cuvant = random.choice(lista_cuvinte).lower()
+# cuvant = 'onomatopee'.lower()
 cuvant_initial = list(cuvant)
 """o _ o _ _ _ o _ e e"""
 """literele sunt lowercase"""
