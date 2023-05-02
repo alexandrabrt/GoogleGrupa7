@@ -128,5 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea/
-verificare_teme.py
-cazuri_teste.py
+verificare_teme
