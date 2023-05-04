@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <a class="btn btn-primary" href="#">Adaugare locatii</a>
+    <a class="btn btn-primary" href="{% url 'locations:adauga' %}">Adaugare locatii</a>
     <table class="table">
     <thead>
     <tr>
         <th>Index</th>
         <th>City</th>
         <th>Country</th>
-        <th>Active</th>
+        <th>State</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -17,11 +17,45 @@
         <td>{{ forloop.counter }}</td>
         <td>{{ item.city }}</td>
         <td>{{ item.country }}</td>
-        <td>{{ item.active }}</td>
-        <td><a class="btn btn-success" href="#">Edit</a></td>
-        <td><a class="btn btn-danger" href="#">Delete</a></td>
+        <td>{% if item.active is True %}
+            Active
+            {% else %}
+            Inactive
+            {% endif %}</td>
+        <td><a class="btn btn-success" href="{% url 'locations:modifica' item.id %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'locations:sterge' item.id %}?page={{ page }}">Delete</a>
+            {% if item.active is True %}
+                <a class="btn btn-info" href="{% url 'locations:dezactiveaza' item.id %}?page={{ page }}">Deactivate</a>
+            {% else %}
+                 <a class="btn btn-success" href="{% url 'locations:activeaza' item.id %}?page={{ page }}">Activate</a>
+            {% endif %}
+        </td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
+    <div class="d-flex align-items-center">
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li><a class="btn" href="?page={{ page_obj.previous_page_number }}"><<</a></li>
+                {% else %}
+                    <li class="disabled btn"><span><<</span></li>
+                {% endif %}
+                {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="active btn btn-info"><span>{{ i }}<span class="sr-only">(curent)</span></span></li>
+                    {% else %}
+                        <li><a class="btn" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li><a class="btn" href="?page={{ page_obj.next_page_number }}">>></a></li>
+                {% else %}
+                    <li class="disabled btn"><span>>></span></li>
+                {% endif %}
+            <span class="align-right">Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }}</span>
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}
