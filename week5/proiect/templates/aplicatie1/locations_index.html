@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if perms.user_profile.add_pontaj %}
     <a class="btn btn-primary" href="{% url 'locations:adauga' %}">Adaugare locatii</a>
+    {% endif %}
     <table class="table">
     <thead>
     <tr>
